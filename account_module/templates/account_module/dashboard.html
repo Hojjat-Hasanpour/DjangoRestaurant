@@ -1,0 +1,67 @@
+{% extends 'shared/base.html' %}
+{% load render_partial %}
+{% load jalali_tags %}
+{% load static %}
+{% block page_title %}داشبورد | رستوران سجاد {{ user.username }}{% endblock %}
+
+{% block content %}
+  <section class="py-4 container">
+    <div class="border border-2 border-success rounded-5 d-flex justify-content-center align-items-center py-2 shadow-lg">
+      <h5 class="m-0">{{ user }} خوش آمدید.</h5>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="d-flex flex-row flex-wrap justify-content-center mb-3">
+
+      <div class="p-2 mx-2"><a href="{% url 'edit_information_page' %}" class="btn btn-success">ویرایش اطلاعات</a></div>
+      <div class="p-2 mx-2"><a href="{% url 'reset_password_page' %}" class="btn btn-success">تغییر رمز ورود</a></div>
+      <div class="p-2 mx-2"><a href="{% url 'logout_page' %}" class="btn btn-success">خروج از حساب</a></div>
+
+    </div>
+  </section>
+
+  <section class="py-4 container">
+    <div class="bg-success text-white border border-2 border-success rounded-5 d-flex justify-content-center align-items-center py-2">
+      <h5 class="m-0">سبد خرید جاری من</h5>
+    </div>
+
+    {% render_partial 'account_module.views.order_food_component' %}
+    {% render_partial 'food_module.views.toast_component' %}
+
+
+  </section>
+
+  <section class="py-4 container">
+    <div class="bg-success text-white border border-2 border-success rounded-5 d-flex justify-content-center align-items-center py-2">
+      <h5 class="m-0">سبد های خرید پرداخت شده</h5>
+    </div>
+  </section>
+
+  <section class="pb-5 container">
+    {% for order in user_orders %}
+      <div class="row gy-4 mb-5">
+        <div class="col-12 order-1 order-lg-0">
+          <div class="border border-success border-2 rounded-5 p-3 text-muted h-100 shadow-lg">
+            <h5>تاریخ سفارش
+              <span>{{ order.payment_date|to_jalali:'%Y/%m/%d' }}</span>
+            </h5>
+            {#          <h6><span>{{  }}</span></h6>#}
+            {#          <h6><span>{{ }}</span></h6>#}
+            <p>غذا های سفارش داده شده:
+              {% for sub_order in order.orderdetail_set.all %}
+                <span>{{ sub_order.food.name }}
+                  {% if not forloop.last %} - {% endif %} </span>
+              {% endfor %}
+            </p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </section>
+
+  {% block js_extentions %}
+    <link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+    <script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+  {% endblock %}
+{% endblock %}

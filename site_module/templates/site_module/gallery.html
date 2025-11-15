@@ -1,0 +1,56 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% block page_title %}
+  گالری تصاویر | هتل سجاد
+{% endblock %}
+{% block content %}
+  <section class="py-4 my-5 container">
+    <div class="border border-2 border-success rounded-5 d-flex justify-content-center align-items-center py-2 shadow-lg">
+      <h3 class="display-4">گالری تصاویر</h3>
+    </div>
+  </section>
+  <section class="container pb-5">
+    <div class="row gy-5 mx-auto">
+    {% for site_image in site_images %}
+      <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 d-flex justify-content-center" data-bs-toggle="modal" data-bs-target="#modalImage">
+        {% thumbnail site_image.image "300x210" crop="center" as im %}
+          <img class="rounded-5 border border-success border-2 shadow-lg curser-pointer" onclick="showModalImage('{{ site_image.name_image }}', '{{ site_image.image.url }}')" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="something wrong">
+        {% endthumbnail %}
+      </div>
+    {% endfor %}
+
+    <nav aria-label="">
+      <ul class="pagination justify-content-center">
+        <li class="page-item{% if not page_obj.has_previous %} disabled">
+          <span class="page-link">قبلی</span>{% else %}">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">قبلی</a>{% endif %}
+        </li>
+        {% for page_number in paginator.page_range %}
+          <li class="page-item{% if page_obj.number == page_number %} active" aria-current="page" >
+            <span class="page-link">{{ page_number }}</span>{% else %}">
+            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>{% endif %}
+          </li>
+        {% endfor %}
+        <li class="page-item{% if not page_obj.has_next %} disabled">
+          <span class="page-link">بعدی</span>{% else %}">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">بعدی</a>{% endif %}
+        </li>
+      </ul>
+    </nav>
+    </div>
+  <div class="modal fade" id="modalImage" tabindex="-1" aria-labelledby="modalImageLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalImageLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex justify-content-center">
+          <img id="modal_image" src="" alt="something wrong">
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+{% endblock %}

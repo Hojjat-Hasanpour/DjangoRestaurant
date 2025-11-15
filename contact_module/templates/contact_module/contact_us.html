@@ -1,0 +1,149 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% block page_title %}ارتباط با ما | رستوران سجاد{% endblock %}
+{% block content %}
+  <!--first section-->
+  <section class="py-4 my-5 container">
+    <div class="border border-2 border-success rounded-5 d-flex justify-content-center align-items-center py-2 shadow-lg">
+      <h3 id="contactus_form" class="display-4">ارتباط با ما</h3>
+    </div>
+  </section>
+
+  <section class="container row mx-auto my-5">
+    {% if messages %}
+      {% for message in messages %}
+        {% if message.tags == 'success' %}
+          <div class="alert alert-success rounded-5">
+            {{ message }}
+          </div>
+        {% endif %}
+        {% if message.tags == 'error' %}
+          <div class="alert alert-warning rounded-5">
+            {{ message }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+
+    {#    {% if messages %}#}
+    {#      <ul class="messages">#}
+    {#        {% for message in messages %}#}
+    {#          <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>#}
+    {#        {% endfor %}#}
+    {#      </ul>#}
+    {#    {% endif %}#}
+    <div class="col-12 order-1 order-md-0 col-md-8 border border-success rounded-5 align-items-center  mb-md-0 mb-sm-3 shadow-lg p-4">
+      {% if not request.user.is_authenticated %}
+        <div class="alert alert-warning h-100 rounded-5">
+          برای ارسال نظر می بایست وارد
+          <a href="{% url 'login_page' %}" class="alert-link">حساب کاربری</a>
+          خود شوید.
+        </div>
+      {% else %}
+        <form action="{% url 'contact_us_page' %}" method="post">
+          <div class="">
+            {% csrf_token %}
+            {#            <input id="id_parent" type="hidden" value="">#}
+            <div class="form-floating mb-3">
+              {{ form.title }}
+              <label>{{ form.title.label }}</label>
+              {{ form.title.errors }}
+            </div>
+            <div id="is_read_by_admin" class="mb-3">
+              {{ form.is_read_by_admin }}
+              <label>{{ form.is_read_by_admin.label }}</label>
+            </div>
+            <div id="parent_place" class="form-floating mb-3 d-none">
+              {{ form.parent }}
+              {#              <label>{{ form.parent.label }}</label>#}
+            </div>
+            <div id="response_to" class="mb-3 d-none">
+
+            </div>
+            <div class="form-floating">
+              {#              <label class="mb-2">{{ form.message.label }}</label>#}
+              {{ form.message }}
+              <label for="id_message">{{ form.message.label }}</label>
+              {{ form.message.errors }}
+            </div>
+            <div>
+              <button type="submit" class="btn btn-success rounded-5 my-2">ارسال</button>
+            </div>
+          </div>
+        </form>
+      {% endif %}
+    </div>
+
+    <div class="col-12 col-md-4 pe-md-0">
+      <img src="{{ image_form.image.url }}" class="img-fluid rounded-5 d-block w-100 shadow-lg h-100"
+           alt="something wrong">
+    </div>
+
+  </section>
+
+  <section class="container my-5">
+    <div class="border border-2 border-success rounded-5 shadow-lg">
+      <h4 class="d-flex justify-content-center my-3">نظرات</h4>
+      {% for comment in comments %}
+        {% if comment.is_read_by_admin %}
+          {% if current_user.is_staff or current_user == comment.user %}
+            <div class="mx-3 my-4 p-4 border border-warning rounded-5 shadow">
+              <div class="d-flex p-2 mb-3 fw-bold bg-success text-white rounded-5 align-items-center">
+                {{ comment.user.username }} - {{ comment.title }}
+                <bottun class="btn btn-light btn-sm ms-auto rounded-5"
+                        onclick="fillParentId({{ comment.id }},'{{ comment.user.username }}')">
+                  پاسخ
+                </bottun>
+              </div>
+              <p class="ps-2 text-justify">
+                {{ comment.message }}
+              </p>
+              {% for subcomment in comment.contactus_set.all %}
+                {% if subcomment.is_active %}
+                  <div class="ms-5 mb-3 p-4 border border-warning rounded-5">
+                    <div class="p-1 mb-2 fw-bold bg-success text-white rounded-5">
+                      {{ subcomment.user.username }} - {{ subcomment.title }}
+                    </div>
+                    <p class="ps-2 text-justify">
+                      {{ subcomment.message }}
+                    </p>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+          {#          nothing happens#}
+        {% else %}
+          <div class="mx-3 my-4 p-4 border border-success rounded-5 shadow">
+            <div class="d-flex p-2 mb-3 fw-bold bg-success text-white rounded-5 align-items-center">
+              {{ comment.user.username }} - {{ comment.title }}
+              <bottun class="btn btn-light btn-sm ms-auto rounded-5"
+                      onclick="fillParentId({{ comment.id }},'{{ comment.user.username }}')">
+                پاسخ
+              </bottun>
+            </div>
+            <p class="ps-2 text-justify">
+              {{ comment.message }}
+            </p>
+            {% for subcomment in comment.contactus_set.all %}
+              {% if subcomment.is_active %}
+                <div class="ms-5 mb-3 p-4 border border-success rounded-5">
+                  <div class="p-1 mb-2 fw-bold bg-success text-white rounded-5">
+                    {{ subcomment.user.username }} - {{ subcomment.title }}
+                  </div>
+                  <p class="ps-2 text-justify">
+                    {{ subcomment.message }}
+                  </p>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}
+{% block js_extentions %}
+  <script src="/static/js/contact_us.js" type="text/javascript"></script>
+{% endblock %}

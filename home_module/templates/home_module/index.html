@@ -1,0 +1,151 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% block page_title %}رستوران سجاد{% endblock %}
+
+{% block content %}
+  <!--SlideShow-->
+  <section class="mb-5">
+  <div class="mx-auto w-75">
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        {% for slide in slider %}
+          <button type="button" data-bs-target="#carouselExampleIndicators"
+                  data-bs-slide-to="{{ forloop.counter0 }}"
+                  {% if forloop.first %} class="active" aria-current="true"{% endif %}
+                  aria-label="Slide {{ slide.id }}"></button>
+        {% endfor %}
+
+      </div>
+      <div class="carousel-inner">
+        {% for slide in slider %}
+          <div class="carousel-item slideshow-height-2 {% if forloop.first %}active{% endif %}">
+            {% thumbnail slide.image "1280x720" crop="center" as im %}
+              <img src="{{ im.url }}" class="img-fluid d-block w-100" alt="something wrong">
+            {% endthumbnail %}
+{#            <img src="{{ slide.image.url }}" class="img-fluid d-block w-100" alt="something wrong">#}
+          </div>
+        {% endfor %}
+
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+              data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+              data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+  </section>
+  <!--SlideShow-->
+  <!--Reserve-->
+  <section class="container row mx-auto my-5">
+    <div class="col-12 order-1 order-md-0 col-md-8 border border-success rounded-5 d-flex align-self-stretch align-items-center justify-content-center mb-md-0 mb-sm-3 shadow-lg">
+      <div class="row justify-content-center align-content-center">
+        <div class="d-flex flex-column justify-content-center">
+          <p class="lead text-muted resize-font">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و
+            با استفاده
+            از طراحان
+            گرافیک است.
+          </p>
+          <button type="button" class="btn btn-lg btn-success mx-auto my-1">سفارش غذا</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4 pe-md-2">
+      <img src="{{ image_order.image.url }}" class="img-fluid rounded-5 d-block w-100 shadow-lg"
+           alt="something wrong">
+    </div>
+
+  </section>
+  <!--Reserve-->
+  <!--categories-->
+  <section class="py-5 background m-150">
+    <div class="container">
+      <div class="display-5 d-flex justify-content-center"><span
+              class="captions rounded rounded-3 mb-5">دسته بندی غذاها</span>
+      </div>
+
+      <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          {% for food_category in food_categories %}
+            <button type="button" data-bs-target="#carouselExampleCaptions"
+                    data-bs-slide-to="{{ forloop.counter0 }}"
+                    {% if forloop.first %} class="active"
+                    aria-current="true" {% endif %} aria-label="Slide {{ forloop.counter }}"></button>
+          {% endfor %}
+        </div>
+        <div class="carousel-inner rounded-5">
+          {% for food_category in food_categories %}
+            <div class="carousel-item slideshow-height-70{% if forloop.first %} active{% endif %}">
+              <img src="{{ food_category.image.url }}" class="d-block w-100" alt="something wrong">
+              <div class="carousel-caption d-none d-md-block">
+                <a href="foods/">
+                  <h5 class="d-inline-block text-white">{{ food_category.name }}</h5>
+                </a>
+                {#                                <p class="cut-multiline">{{ food_category.description }}</p>#}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <!-- /////////////////////////// -->
+      <div class="d-flex justify-content-center mt-3">
+        <a class="btn btn-outline-dark" href="{% url 'food_category_page' %}">مشاهده غذاها</a>
+      </div>
+    </div>
+  </section>
+  <!--categories-->
+
+  <!--Services-->
+  <section id="services" class="pt-5 mb-5">
+    <div class="container">
+      <div class="display-6 d-flex justify-content-center my-5">
+        <h2 class="captions">بهترین خدمات، عالی ترین کیفیت</h2>
+      </div>
+      <div class="bg-success shadow rounded rounded-5">
+        <div class="row row-cols-2 row-cols-md-6 g-4">
+          {% for service in services %}
+            <div class="col">
+              <div class="card h-100 text-center bg-success border-0 rounded-5">
+                <img src="{{ service.logo.url }}" class="card-img-top w-50 mx-auto"
+                     alt="something wrong">
+                <div class="card-body">
+                  <a class="lnk" href="{{ service.get_absolute_url }}">
+                    <h5 class="card-title resize-font">{{ service.title }}</h5>
+                  </a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!--Services-->
+  <section class="container text-justify m-150">
+    <h1 class="captions">درباره رستوران</h1>
+    <p class="lead text-muted resize-font">{{ site_setting.about_us_text }}</p>
+  </section>
+
+
+{% endblock %}
+

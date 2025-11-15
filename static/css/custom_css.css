@@ -1,0 +1,74 @@
+.slideshow-height {
+  max-height: 80vh;
+}
+
+.slideshow-height-70 {
+  max-height: 70vh;
+}
+
+form ul {
+  list-style-type: none;
+  margin: 3px 0;
+  padding: 0;
+  color: red;
+  font-size: 0.7rem;
+}
+
+form input {
+  margin-top: 2px;
+}
+
+.link-login {
+  color: green;
+  text-decoration: none;
+}
+
+.link-login:hover {
+  color: darkgreen;
+  text-decoration: underline;
+}
+
+.active > .page-link {
+  background-color: #198754;
+  color: white;
+  border: solid #198754 1px;
+}
+
+.active > .page-link:hover {
+  color: white;
+  border: solid darkgreen 1px;
+}
+
+.page-link {
+  color: #198754;
+  border: solid #198754 1px;
+}
+
+.page-link:hover {
+  color: #198754;
+  border: solid darkgreen 1px;
+}
+
+.h-250 {
+  height: 250px;
+}
+
+.hr-width {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.cut-multiline {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.direction-rtl {
+  direction: rtl;
+}
+
+.curser-pointer {
+  cursor: pointer;
+}

@@ -1,0 +1,123 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load render_partial %}
+{% load thumbnail %}
+{% block page_title %}غذاها | رستوران سجاد{% endblock %}
+
+{% block content %}
+  <!--first section-->
+  <section class="py-4 my-5 container">
+    <div class="border border-2 border-success rounded-5 d-flex justify-content-center align-items-center py-2 shadow-lg">
+      <h1 class="display-4">غذاها</h1>
+    </div>
+  </section>
+  <!--Food Info-->
+  <section class="container" id="foods_order">
+    <nav class="py-4">
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+        {% for category in categories %}
+          <button class="text-success nav-link {% if forloop.first %}active{% endif %}"
+                  id="nav-{{ category.id }}-food-tab"
+                  data-bs-toggle="tab" data-bs-target="#nav-{{ category.id }}-food" type="button" role="tab"
+                  aria-controls="nav-{{ category.id }}-food"
+                  aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
+            {{ category.name }}</button>
+        {% endfor %}
+      </div>
+    </nav>
+
+    <div class="tab-content mb-5 pb-5" id="nav-tabContent">
+      {% for category in categories %}
+        <div class="tab-pane fade{% if forloop.first %} active show{% endif %}"
+             id="nav-{{ category.id }}-food" role="tabpanel"
+             aria-labelledby="nav-{{ category.id }}-food-tab">
+
+          <div class="row row-cols-1 row-cols-md-2 g-4 pb-5 mb-5">
+            {% for subfood in category.food_set.all %}
+              <div class="col">
+                <div class="card h-100 border border-2 border-success shadow rounded-5 shadow-lg">
+                  {% thumbnail subfood.image "640x360" crop="center" as im %}
+                    <img src="{{ im.url }}" class="card-img-top rounded-5"
+                         alt="something wrong">
+                  {% endthumbnail %}
+                  <div class="card-body">
+                    <h5 class="card-title">{{ subfood.name }}</h5>
+                    <p class="card-text text-justify">{{ subfood.description }}</p>
+                    <p class="card-text text-justify">قیمت: {{ subfood.price }}</p>
+                    <div class="form-floating d-inline-block mb-3 col-2">
+                      <input type="number" min="1" value="1" class="form-control"
+                             id="food-count-{{ subfood.id }}">
+                      <label for="food-count">تعداد</label>
+                    </div>
+                    <button id="addFoodButton" class="btn btn-success"
+                            onclick="addFoodToOrder({{ subfood.id }})">افزودن به
+                      سبد خرید
+                    </button>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+      {% endfor %}
+    </div>
+  </section>
+
+  {% render_partial 'food_module.views.toast_component' %}
+
+  {#{% for category in food_category %}#}
+  {#      <div class="tab-pane fade{% if forloop.first %} active show{% endif %}"#}
+  {#           id="nav-{{ category.id }}-food" role="tabpanel"#}
+  {#           aria-labelledby="nav-{{ category.id }}-food-tab">#}
+  {##}
+  {#      <div class="row row-cols-1 row-cols-md-2 g-4 pb-5 mb-5">#}
+  {#      {% for subfood in category.food_set.all %}#}
+  {#        <div class="col">#}
+  {#          <div class="card h-100 border border-2 border-success shadow rounded-5 shadow-lg">#}
+  {#            {% thumbnail subfood.image "640x360" crop="center" as im %}#}
+  {#              <img src="{{ im.url }}" class="card-img-top rounded-5" alt="something wrong">#}
+  {#            {% endthumbnail %}#}
+  {#            <div class="card-body">#}
+  {#              <h5 class="card-title">{{ subfood.name }}</h5>#}
+  {#              <p class="card-text text-justify">{{ subfood.description }}</p>#}
+  {#              <a href="{% url 'tour_detail_page' subfood.slug %}" class="stretched-link btn btn-success">مشاهده</a>#}
+  {#              <div class="form-floating d-inline-block mb-3 col-2">#}
+  {#                <input type="number" min="1" value="1" class="form-control" id="food-count-{{ subfood.id }}">#}
+  {#                <label for="food-count">تعداد</label>#}
+  {#              </div>#}
+  {#              <button id="addFoodButton" class="btn btn-success" onclick="addFoodToOrder({{ subfood.id }})">افزودن به#}
+  {#                سبد خرید#}
+  {#              </button>#}
+  {##}
+  {#            </div>#}
+  {#          </div>#}
+  {#        </div>#}
+  {#      {% endfor %}#}
+{% endblock %}
+{#{% for internal_capacity in capacities %}#}
+{#        {% if internal_capacity.food.category.id == capacity.food.category.id %}#}
+{#        <div class="col">#}
+{#          <div class="card h-100 border border-2 border-success shadow rounded-5 shadow-lg">#}
+{#            {% thumbnail internal_capacity.food.image "640x360" crop="center" as im %}#}
+{#              <img src="{{ im.url }}" class="card-img-top rounded-5" alt="something wrong">#}
+{#            {% endthumbnail %}#}
+{#            <div class="card-body">#}
+{#              <h5 class="card-title">{{ internal_capacity.food.name }}</h5>#}
+{#              <p class="card-text text-justify">{{ internal_capacity.food.description }}</p>#}
+{##}
+{#              <div class="form-floating d-inline-block mb-3 col-2">#}
+{#                <input type="number" min="1" value="1" class="form-control" id="food-count-{{ internal_capacity.food.id }}">#}
+{#                <label for="food-count">تعداد</label>#}
+{#              </div>#}
+{#              <button id="addFoodButton" class="btn btn-success" onclick="addFoodToOrder({{ internal_capacity.food.id }})">افزودن به#}
+{#                سبد خرید#}
+{#              </button>#}
+{##}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#        {% endif %}#}
+{##}
+{#      {% endfor %}#}

@@ -1,0 +1,104 @@
+<!-- tap to up-->
+{% load static %}
+<div id="tap_to_top" onclick="backToTop()" class="position-fixed border rounded-circle bg-success d-flex justify-content-center align-items-center opacity-75 d-none"
+     style="width: 32px; height: 32px; right: 15px; bottom: 15px;">
+  <a href="#" class="text-light">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-up"
+         viewBox="0 0 16 16">
+      <path fill-rule="evenodd"
+            d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+    </svg>
+  </a>
+</div>
+
+<!--Footer-->
+<footer>
+  <div class="bg-success shadow">
+    <div class="row container mx-auto text-light px-0 py-4 align-items-baseline">
+      <div class="col-12 col-sm-6 col-lg-3 my-sm-3">
+        <h3 class="mb-3">{{ site_setting.site_name }}</h3>
+        <ul class="ps-3">
+          <li class="my-list-item">
+            <a href="{% url 'introduction_page' %}" class="lnk">درباره رستوران</a>
+          </li>
+          <li class="my-list-item">
+            <a href="{% url 'advantages_page' %}" class="lnk">مزایای خدمات رستوران</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-3 my-3">
+        <h6 class="mb-3">امکانات</h6>
+        <ul class="ps-3">
+          <li class="my-list-item">
+            <a href="{% url 'food_category_page' %}" class="lnk">غذا ها</a>
+          </li>
+          <li class="my-list-item">
+            <a href="{% url 'register_page' %}" class="lnk">ثبت نام</a>
+          </li>
+          <li class="my-list-item">
+            <a href="{% url 'login_page' %}" class="lnk">ورود</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-3 my-3">
+        <h6 class="mb-3">خدمات</h6>
+        <ul class="ps-3">
+          {% for service in services %}
+            <li class="my-list-item">
+            <a href="{{ service.get_absolute_url }}" class="lnk">{{ service.title }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-3 my-3">
+        <h6 class="mb-3">راه های ارتباطی</h6>
+        <ul class="ps-2">
+          <li class="my-list-item">
+            تلفن: {{site_setting.phone }}
+          </li>
+          <li class="my-list-item">
+            فکس: {{site_setting.fax}}
+          </li>
+          <li class="my-list-item">
+            کانال تلگرامی: {{site_setting.telegram}}
+          </li>
+          <li class="my-list-item">
+            ایمیل: {{ site_setting.email}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row mx-auto text-light px-0 py-4 align-items-baseline justify-content-md-center">
+      <div class="col-12 col-md-3 d-flex justify-content-sm-center">
+        <h6>با ما در شبکه ها اجتماعی همراه باشید:</h6>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="d-flex flex-row justify-content-center">
+          <div class="mx-2  {% if site_setting.facebook is None or site_setting.facebook == '' %}d-none{% endif %}">
+            <a href="{{ site_setting.facebook }}">
+              <img class="img-fluid" width="32px" height="32px" src="{% static 'images/facebook-120.png' %}" alt="something wrong">
+            </a>
+          </div>
+          <div class="mx-2  {% if site_setting.twitter is None or site_setting.twitter == '' %}d-none{% endif %}">
+            <a href="{{ site_setting.twitter }}">
+              <img class="img-fluid" width="32px" height="32px" src="{% static 'images/twitter-120.png' %}" alt="something wrong">
+            </a>
+          </div>
+          <div class="mx-2  {% if site_setting.instagram is None or site_setting.instagram == '' %}d-none{% endif %}">
+            <a href="{{ site_setting.instagram }}">
+              <img class="img-fluid" width="32px" height="32px" src="{% static 'images/instagram-120.png' %}" alt="something wrong">
+            </a>
+          </div>
+          <div class="mx-2  {% if site_setting.whatsapp is None or site_setting.whatsapp == '' %}d-none{% endif %}">
+            <a href="{{ site_setting.whatsapp }}">
+              <img class="img-fluid" width="32px" height="32px" src="{% static 'images/whatsapp-120.png' %}" alt="something wrong">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-light d-flex justify-content-center py-3">
+    <p class="text-muted m-0 resize-font">{{ site_setting.copy_right }}</p>
+  </div>
+</footer>

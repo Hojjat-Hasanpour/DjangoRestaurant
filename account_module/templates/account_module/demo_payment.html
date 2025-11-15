@@ -1,0 +1,99 @@
+{% extends 'shared/base.html' %}
+{% load jalali_tags %}
+{% block page_title %}
+  درگاه پرداخت | رستوران سجاد
+{% endblock %}
+{% block content %}
+  <section class="py-4 my-5 container">
+    <div class="border border-2 border-success rounded-5 d-flex justify-content-center align-items-center py-2 shadow-lg">
+      <h1 class="display-4">پرداخت</h1>
+    </div>
+  </section>
+  <section class="container mb-5">
+    <div class="row gy-5">
+
+      <div class="col-sm-12 col-md-7">
+        <div class="border border-success border-3 rounded-5 shadow-lg p-4">
+          <form action="">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="CardNo" placeholder="xxxx-xxxx-xxxx-xxxx">
+              <label for="CardNo">شماره کارت</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="CVV2" placeholder="1234">
+              <label for="CVV2">شماره شناسایی دوم (CVV2)</label>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="Month" placeholder="00">
+                  <label for="Month">ماه</label>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="Year" placeholder="00">
+                  <label for="Year">سال</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control" id="Password" placeholder="1234">
+              <label for="Password">رمز اینترنتی کارت</label>
+            </div>
+            <div class="row">
+              <div class="col-7">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="Code" placeholder="1234">
+                  <label for="Code">کد امنیتی</label>
+                </div>
+              </div>
+              <div class="col-5">
+                نمونه کد: 1234
+              </div>
+            </div>
+
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control" id="email" placeholder="name@example.com">
+              <label for="email">ایمیل (اختیاری)</label>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-5">
+        {% if not current_order or total_price == 0 %}
+          <div class="alert alert-warning h-100 rounded-5">
+            سبد خرید شما خالی است.
+            <br>
+             به منوی
+            <a class="alert-link" href="{% url 'food_category_page' %}">سفارش غذاها</a>
+ مراجعه کنید.
+          </div>
+        {% else %}
+          <div class="border border-success border-3 rounded-5 shadow-lg h-100 p-4">
+            <p>تاریخ سفارش غذا:
+              <span>{{ date|to_jalali:'%Y/%m/%d' }}</span>
+            </p>
+            <p>کاربر: {{ current_order.user }}</p>
+            {% for item in current_order_detail %}
+              <span>{{ item.food.name }} تعداد: {{ item.count }}
+                {% if not forloop.last %} - {% endif %} </span>
+            {% endfor %}
+
+            <p>مبلغ: <span class="text-success display-6 fw-bold">{{ total_price }}</span></p>
+            <div id="buttons">
+              <button onclick="successCostumePayment({{ current_order.id }}, {{ total_price }})"
+                      class="btn btn-success btn-lg">پرداخت
+              </button>
+              <button onclick="cancelCostumePayment({{ current_order.id }}, {{ total_price }})"
+                      class="btn btn-warning btn-lg text-white">
+                انصراف
+              </button>
+            </div>
+          </div>
+          </div>
+        {% endif %}
+    </div>
+  </section>
+{% endblock %}

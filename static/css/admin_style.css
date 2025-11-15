@@ -1,0 +1,11 @@
+body, input, textarea, select, option, button, a {
+  font-family: Vazirmatn, 'vazir', sans-serif;
+}
+
+form .button {
+  font-family: Vazirmatn, 'vazir', sans-serif;
+}
+
+.form-row p {
+  font-family: Vazirmatn, 'vazir', sans-serif;
+}

@@ -1,0 +1,61 @@
+{% extends 'shared/base.html' %}
+{% block page_title %}ویرایش اطلاعات | هتل سجاد{% endblock %}
+
+{% block content %}
+  <section class="container mt-5">
+    {% if messages %}
+      {% for message in messages %}
+        {% if message.tags == 'success' %}
+          <div class="alert alert-success rounded-5">
+            {{ message }}
+          </div>
+        {% endif %}
+        {% if message.tags == 'error' %}
+          <div class="alert alert-warning rounded-5">
+            {{ message }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </section>
+  <section class="my-5 container">
+    <div class="d-flex flex-column align-items-center border border-3 border-success rounded rounded-5 col-lg-6 col-md-8 col-12 mx-auto">
+      <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128"
+           fill="currentColor" class="bi bi-person-circle text-success my-3" viewBox="0 0 16 16">
+        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+        <path fill-rule="evenodd"
+              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+      </svg>
+      <h2 class="my-3">ویرایش اطلاعات</h2>
+      <form class="my-3 col-md-8 col-11" method="post" action="{% url 'edit_information_page' %}">
+        {% csrf_token %}
+        <div class="form-floating mb-3">
+          {{ form.first_name }}
+          <label>{{ form.first_name.label }}</label>
+          {{ form.first_name.errors }}
+        </div>
+        <div class="form-floating mb-3">
+          {{ form.last_name }}
+          <label>{{ form.last_name.label }}</label>
+          {{ form.last_name.errors }}
+        </div>
+        <div class="form-floating mb-3">
+          {{ form.username }}
+          <label>{{ form.username.label }}</label>
+          {{ form.username.errors }}
+        </div>
+        <div class="form-floating mb-3">
+          {{ form.email }}
+          <label>{{ form.email.label }}</label>
+          {{ form.email.errors }}
+        </div>
+        <div class="my-3 col-12">
+          <button class="btn btn-success" type="submit">ذخیره</button>
+        </div>
+        {#                <div class="my-3 col-12">#}
+        {#                    <p>حساب دارید؟ <a class="link-login" href="{% url 'login_page' %}">ورود</a></p>#}
+        {#                </div>#}
+      </form>
+    </div>
+  </section>
+{% endblock %}

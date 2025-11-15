@@ -1,0 +1,1 @@
+$('#id_message').css({'height': '250px'});

@@ -1,0 +1,50 @@
+<section id="my-toast">
+  <div class="py-4 container">
+    {% for item in current_order_details %}
+      <div class="row gy-4 mb-5">
+        <div class="col-md-12 col-lg-8 order-1 order-lg-0">
+          <div class="border border-success border-2 rounded-5 p-3 h-100 shadow-lg">
+            <h5>غذا: <span>{{ item.food.name }}</span></h5>
+
+            <h6>تعداد: <span>{{ item.count }}</span></h6>
+            <h6>قیمت: <span>{{ item.food.price }}</span></h6>
+            <p class="cut-multiline text-justify">توضیحات: {{ item.food.short_description }}
+            </p>
+            <button id='removeFoodButton' class="btn btn-success" onclick="removeFoodFromOrder({{ item.food.id }})">حذف
+              غذا
+            </button>
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-4">
+          <img class="img-fluid border border-success border-2 rounded-5 shadow-lg" src="{{ item.food.image.url }}"
+               alt="something wrong">
+        </div>
+      </div>
+    {% endfor %}
+    {#    <a class="btn btn-success" href="">تایید نهایی و پرداخت</a>#}
+    {% if current_order_details %}
+      <div class="py-4">
+        <a class="btn btn-lg btn-success" href="{% url 'demo_payment_page' %}">مرحله بعد و پرداخت</a>
+      </div>
+    {% endif %}
+
+  </div>
+
+</section>
+
+<section>
+  <div class="toast-container position-fixed bottom-0 start-0 p-3">
+    <div id="FoodToast" class="toast border border-3 border-success" role="alert" aria-live="assertive"
+         aria-atomic="true">
+      <div class="toast-header">
+        {#          <img src="..." class="rounded-5 me-2" alt="something wrong">#}
+        <strong class="me-auto">{{ title }}</strong>
+
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        {{ message }}
+      </div>
+    </div>
+  </div>
+</section>

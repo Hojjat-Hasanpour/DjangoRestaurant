@@ -1,0 +1,76 @@
+body {
+  font-family: Vazirmatn, 'vazir', sans-serif;
+}
+
+.navbar-dark,
+.navbar-nav,
+.nav-link {
+  color: rgba(255, 255, 255, 1);
+  border-bottom: solid 2px #198754;
+}
+
+.nav-link:hover {
+  color: white;
+  border-bottom: solid 2px white;
+}
+
+.lnk {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+}
+
+.lnk:hover {
+  color: white;
+  text-decoration: underline white;
+}
+
+.my-list-item {
+  list-style-type: '>  ';
+  margin-bottom: 1rem;
+}
+
+.captions {
+  color: black;
+  background-color: white;
+}
+
+.captions::after {
+  content: '>';
+  color: darkgreen;
+}
+
+.captions::before {
+  content: '<';
+  color: darkgreen;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.background {
+  /*background-image: url('/static/images/background_main.png');*/
+  /*background-attachment: fixed;*/
+  /*background-color: #198754;*/
+  background-image: linear-gradient(#198754, white, #198754);
+}
+
+.m-150 {
+  margin: 150px auto;
+}
+
+.hr-size {
+  width: 60%;
+  height: 4px;
+  opacity: 1;
+}
+
+@media screen and (max-width: 860px) {
+  .resize-font {
+    font-size: .85rem;
+  }
+
+  p {
+    font-size: .85rem;
+  }
+}
